@@ -718,18 +718,23 @@ comparison = pd.DataFrame({
 })
 
 print("STRATEGY COMPARISON (Trading Period)")
-print(comparison)
+comparison.to_csv(
+    "results/strategy_comparison.csv"
+)
+
 
 # Calculate improvements
 sharpe_improvement = ((forecast_metrics['Sharpe Ratio'] / simple_metrics['Sharpe Ratio']) - 1) * 100
 dd_reduction = (1 - abs(forecast_metrics['Max Drawdown']) / abs(simple_metrics['Max Drawdown'])) * 100
 dd_duration_reduction = (1 - forecast_metrics['Max DD Duration (days)'] / simple_metrics['Max DD Duration (days)']) * 100
 
-print(f"\nImprovements from Forecasting:")
-print(f"  Sharpe Ratio: {sharpe_improvement:+.1f}%")
-print(f"  Max Drawdown: {dd_reduction:+.1f}% reduction")
-print(f"  DD Duration: {dd_duration_reduction:+.1f}% reduction")
-print(f"\n  Paper claims: 75% reduction in decline periods")
+with open("results/improvements_summary.txt", "w") as f:
+    f.write("Improvements from Forecasting\n")
+    f.write(f"Sharpe Ratio Improvement: {sharpe_improvement:.1f}%\n")
+    f.write(f"Max Drawdown Reduction: {dd_reduction:.1f}%\n")
+    f.write(f"DD Duration Reduction: {dd_duration_reduction:.1f}%\n")
+    f.write("Paper claim: 75% reduction in decline periods\n")
+
 
 fig, axes = plt.subplots(3, 1, figsize=(14, 12))
 
@@ -770,7 +775,8 @@ ax3.legend(loc='upper left', fontsize=10)
 ax3.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.show()
+plt.savefig("results/strategy_comparison_plots.png", dpi=300, bbox_inches="tight")
+plt.close()
 
 print("TRADE STATISTICS")
 
