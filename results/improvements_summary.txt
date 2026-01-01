@@ -1,0 +1,5 @@
+Improvements from Forecasting
+Sharpe Ratio Improvement: -431.7%
+Max Drawdown Reduction: 34.4%
+DD Duration Reduction: 35.4%
+Paper claim: 75% reduction in decline periods
